@@ -97,6 +97,10 @@ for loop in range(1):
         # 图片输入到网络 经过网络加工后获取预测
         preds = network(images)
         # 用交叉熵(差平方和)处理预测和标签获取损失
+        # 熵是最优策略下实现某概率事件的期望 熵越大系统不确定性越大
+        # 交叉熵是给定策略下实现某概率事件的期望 交叉熵越接近熵说明给定策略越接近最优
+        # 交叉熵总是大于等于熵 优化就是让交叉熵更接近熵
+        # https://baijiahao.baidu.com/s?id=1618702220267847958&wfr=spider&for=pc
         loss = F.cross_entropy(preds, labels)
 
         # 清空旧梯度

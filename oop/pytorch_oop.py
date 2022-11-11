@@ -16,17 +16,24 @@ import torch.optim as optim
 train_set = torchvision.datasets.FashionMNIST(root='../data/FashionMNIST', train=True, download=True,
                                               transform=transforms.Compose([transforms.ToTensor()]))
 params = OrderedDict(
-    lr=[.01, .001],
-    batch_size=[1000, 2000],
-    shuffle=[True, False]
+    lr=[.01, .001]
+    , batch_size=[1000, 2000]
+    # , shuffle=[True, False]
+    # windows只能标0 气死
+    , num_workers=[0]
 )
 
 m = RunManager()
 for run in RunBuilder.get_runs(params):
     network = Network()
-    loader = torch.utils.data.DataLoader(train_set, batch_size=run.batch_size, shuffle=run.shuffle)
+    loader = torch.utils.data.DataLoader(
+        train_set
+        , batch_size=run.batch_size
+        # , shuffle=run.shuffle
+        , num_workers=run.num_workers)
     optimizer = optim.Adam(network.parameters(), lr=run.lr)
 
+    # 开启训练的所有前提:参数/网络/数据
     m.begin_run(run, network, loader)
     for epoch in range(5):
         m.begin_epoch()

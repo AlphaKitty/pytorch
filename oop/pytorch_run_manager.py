@@ -28,6 +28,7 @@ class RunManager():
         self.loader = None
         self.tb = None
 
+    # 初始化参数,默认图像和网络参数绘制都属于前期准备工作
     def begin_run(self, run, network, loader):
         print("begin_run")
         self.run_start_time = time.time()
@@ -84,6 +85,7 @@ class RunManager():
         for k, v in self.run_params._asdict().items(): results[k] = v
         self.run_data.append(results)
         df = pd.DataFrame.from_dict(self.run_data, orient='columns')
+        print(df)
         # clear_output(wait=True)
         # display(df)
 
